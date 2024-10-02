@@ -1,20 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
     <title>Pile ou face</title>
 </head>
 
 <body>
+    <h1>Pile ou face</h1>
+
+    <div id="welcome">
+        <h4>Bienvenue au jeu du pile ou face</h4>
+
+        <label for="pseudo">Choissisez un pseudo</label>
+        <input type="text" id="pseudo">
+        <br>
+        <br>
+        <button id="pseudo-vali">Valider</button>
+    </div>
+
+    <div id="waiting-room">
+        <h4>En attente de d'autres joueurs...</h4>
+        <section id="chat">
+            <h2>Chat</h2>
+            <div id="messages"></div>
+            <input type="text" id="newMessage">
+            <button id="send">Envoyer</button>
+        </section>
+    </div>
+
+    <div id="cant-play">
+        <h4>Trop tard ! il y a déjà 3 joueurs</h4>
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2V4cDlqajN2bmZ3bG91eHZnN2NycWliaWRuaGlkc3pkc3hpOXZqcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HcbSHH25PGoR5CQKte/giphy.webp"
+            alt="Gif image too late" width="200px">
+    </div>
+
+    <div id="start-game">
+        <h4 id="waitingplayers">En attente des autres joueur</h4>
+        <div id="game">
+
+            <h4 id="canplay">Vous pouvez jouer !</h4>
+
+            <button id="pile" style="background-color:beige; color: black">Pile</button>
+            <button id="face" style="background-color: black; color: white">Face</button>
+            <br>
+            <br>
+            <input type="number" id="bet-input" min="0" value="0" />
+            <button id="validate-bet">Parier</button>
+        </div>
+        <div id="current-points"></div>
+    </div>
+
+    <div id="end-of-tournement">
+
+    </div>
+
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-    <script>
-        const socket = io('http://localhost:3000')
-        socket.on('connect', () => {
-            console.log('connected')
-        })
-    </script>
+    <script src="./script.js"></script>
 </body>
 
 </html>

@@ -12,7 +12,6 @@ Chat
 
 Array joueurs lenght == 3 => création d'une room jeu
 
-
 Random pile ou face (bool)
 
 algo back qui calcule le nombre de tour + nb de points
