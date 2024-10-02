@@ -91,7 +91,7 @@ io.on('connection', (socket) => {
         roomData[roomName].rounds += 1;
       }
 
-      if (roomData[roomName].rounds === 1) {
+      if (roomData[roomName].rounds === 3) {
         console.log(roomData[roomName].rounds + ' fin de la partie');
         endOfTournament(roomName, roomData[roomName]);
         roomData[roomName].rounds = 0;
