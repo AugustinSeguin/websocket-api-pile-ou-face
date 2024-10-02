@@ -18,18 +18,15 @@ io.on('connection', (socket) => {
     console.log('a user connected', socket.id, socket.pseudo)
 
     socket.on('game', (data) => {
-        // Écouter l'événement 'setPseudo' pour récupérer le pseudo
         console.log('setPseudo', data);
         socket.pseudo = data.pseudo;
         console.log('Pseudo set:', socket.pseudo);
 
-        // set players
         users.push({ pseudo: socket.pseudo, id: socket.id, points: 100 });
 
-        // waiting room
-        waitingRoom(socket);
+        launchGame(socket);
 
-        bet(socket);
+        round(socket);
     });
 
     socket.on('message', (data) => {
@@ -39,7 +36,6 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('user disconnected', socket.id);
-        // Supprimer l'utilisateur de la liste des utilisateurs
         users = users.filter(user => user.id !== socket.id);
         console.log('Updated users list:', users);
     });
@@ -49,7 +45,7 @@ server.listen(3000, () => {
     console.log('listening on *:3000')
 })
 
-function waitingRoom(socket) {
+function launchGame(socket) {
     if (users.length < 3) {
         socket.emit('waiting_room', { message: 'En attente de joueurs' });
         console.log('En attente de joueurs');
@@ -59,7 +55,7 @@ function waitingRoom(socket) {
             io.to(user.id).emit('start_game', { message: 'La partie va commencer' });
         });
         console.log('La partie va commencer');
-        displayCurrentPoint();
+        displayCurrentPoints();
     }
     else {
         socket.emit('too_much_player', { message: 'Trop tard. Il y a déjà trop de joueurs' });
@@ -67,7 +63,7 @@ function waitingRoom(socket) {
     }
 }
 
-function bet(socket) {
+function round(socket) {
     socket.on('bet', (data) => {
         console.log('bet', data);
         bets.push({ pseudo: socket.pseudo, id: socket.id, bet: data.betValue, setting: data.setting });
@@ -87,10 +83,9 @@ function bet(socket) {
             round++;
         }
 
-        // fin de la partie
-        if (round === 3) {
+        if (round === 1) {
             console.log(round + ' fin de la partie');
-            endOfTournament(socket);
+            endOfTournament();
             round = 0;
             users = [];
         }
@@ -109,11 +104,11 @@ function setUserPoints(socketId, setting, result) {
             return user;
         }
     });
-    displayCurrentPoint();
+    displayCurrentPoints();
     console.log(users);
 }
 
-function displayCurrentPoint() {
+function displayCurrentPoints() {
     users.forEach(user => {
         io.to(user.id).emit('current_points', { points: user.points });
     });
