@@ -1,100 +1,147 @@
-/* Reset some default browser styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Body styles */
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    line-height: 1.6;
-    padding: 20px;
-  }
-  
-  /* Container */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Header styles */
-  header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  header h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-  }
-  
-  header p {
-    font-size: 1.2em;
-    color: #666;
-  }
-  
-  /* Button styles */
-  button {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Input styles */
-  input[type="text"],
-  input[type="number"],
-  input[type="password"],
-  input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
-  }
-  
-  /* Form styles */
-  form {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  /* Utility classes */
-  .text-center {
-    text-align: center;
-  }
-  
-  .mt-20 {
-    margin-top: 20px;
-  }
-  
-  .mb-20 {
-    margin-bottom: 20px;
-  }
-  
-  /* Footer styles */
-  footer {
-    text-align: center;
-    margin-top: 20px;
-    padding: 10px;
-    background: #007bff;
-    color: #fff;
-    border-radius: 5px;
-  }
+/* Importation de la police */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #333333;
+}
+
+h2, h4 {
+  color: #555555;
+}
+
+.input-group {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input-group label {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #6c63ff;
+  outline: none;
+}
+
+.btn {
+  background-color: #6c63ff;
+  color: #ffffff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: #574b90;
+}
+
+.chat {
+  text-align: left;
+}
+
+.messages {
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+}
+
+.messages p {
+  margin: 5px 0;
+}
+
+.gif {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.choice {
+  flex: 1;
+  padding: 15px;
+  font-size: 1.2rem;
+}
+
+.bet-section {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.bet-section input {
+  width: 60%;
+}
+
+.points, .results {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #333333;
+}
+
+.results p {
+  margin: 5px 0;
+}
