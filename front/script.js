@@ -73,7 +73,7 @@ socket.on('too_much_player', () => {
 // Start playing page
 
 let betInput = document.getElementById('bet-input');
-const betValiButton = document.getElementById('validate-bet');
+
 const pileButton = document.getElementById('pile');
 const faceButton = document.getElementById('face');
 
@@ -88,19 +88,19 @@ socket.on('start_game', () => {
 pileButton.addEventListener('click', () => {
   betValue = 'pile';
   console.log(betValue);
+  bet();
 });
 
 faceButton.addEventListener('click', () => {
   betValue = 'face';
+  bet();
   console.log(betValue);
 });
 
 // timer
 
 // let timer = setTimeout(bet, 10000);
-
-// function bet(event) {
-betValiButton.addEventListener('click', (event) => {
+const bet = () => {
   document.getElementById('waitingplayers').style.display = 'block';
   document.getElementById('game').style.display = 'none';
   console.log(betValue);
@@ -114,7 +114,7 @@ betValiButton.addEventListener('click', (event) => {
     pseudo: pseudoInput.value,
     setting: betInput.value,
   });
-});
+};
 
 socket.on('current_points', (data) => {
   document.getElementById('waitingplayers').style.display = 'none';
