@@ -31,14 +31,19 @@ io.on('connection', (socket) => {
 
         bet(socket);
     });
+
     socket.on('message', (data) => {
         console.log('message', data);
         io.emit('message', data);
     });
+
     socket.on('disconnect', () => {
-        console.log('user disconnected', socket.id)
+        console.log('user disconnected', socket.id);
+        // Supprimer l'utilisateur de la liste des utilisateurs
+        users = users.filter(user => user.id !== socket.id);
+        console.log('Updated users list:', users);
     });
-})
+});
 
 server.listen(3000, () => {
     console.log('listening on *:3000')
@@ -86,6 +91,8 @@ function bet(socket) {
         if (round === 3) {
             console.log(round + ' fin de la partie');
             endOfTournament(socket);
+            round = 0;
+            users = [];
         }
     });
 }
