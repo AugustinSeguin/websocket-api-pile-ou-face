@@ -19,8 +19,15 @@ const maxPlayersPerRoom = 3;
 
 function getRooms() {
   let rooms = Array.from(io.sockets.adapter.rooms);
-  rooms = rooms.filter((word) => word[0].startsWith('room'));
-  rooms = rooms.map((room) => room[0]);
+
+  // Filtrer les rooms qui commencent par 'room' et qui ont moins de 3 personnes
+  rooms = rooms.filter(
+    ([roomName, room]) => roomName.startsWith('room') && room.size < 3
+  );
+
+  // Mapper pour obtenir uniquement les noms des rooms
+  rooms = rooms.map(([roomName]) => roomName);
+
   return rooms;
 }
 
@@ -81,7 +88,7 @@ io.on('connection', (socket) => {
         setting: data.setting,
       });
 
-      if (roomData[roomName].bets.length === 1) {
+      if (roomData[roomName].bets.length === 3) {
         let result = Math.random() < 0.5;
         result = result ? 'pile' : 'face';
         roomData[roomName].bets.forEach((bet) => {
@@ -105,7 +112,7 @@ io.on('connection', (socket) => {
         roomData[roomName].rounds += 1;
       }
 
-      if (roomData[roomName].rounds === 3) {
+      if (roomData[roomName].rounds === 1) {
         console.log(roomData[roomName].rounds + ' fin de la partie');
         endOfTournament(roomName, roomData[roomName]);
         roomData[roomName].rounds = 0;
@@ -152,9 +159,26 @@ function displayCurrentPoints(roomData) {
     io.to(user.id).emit('current_points', { points: user.points });
   });
 }
-
 function endOfTournament(roomName, roomData) {
-  let rankings = roomData.users.sort((a, b) => b.points - a.points);
+  // Trier les utilisateurs par points
+  let rankings = roomData[roomName].users.sort((a, b) => b.points - a.points);
 
+  // Émettre l'événement de fin de tournoi
   io.to(roomName).emit('end_of_tournament', rankings);
+
+  // Supprimer la room des données
+  delete roomData[roomName];
+
+  // Supprimer tous les joueurs de la room et supprimer la room
+  io.of('/')
+    .in(roomName)
+    .clients((error, socketIds) => {
+      if (error) throw error;
+      socketIds.forEach((socketId) => {
+        const socket = io.sockets.sockets.get(socketId);
+        if (socket) {
+          socket.leave(roomName);
+        }
+      });
+    });
 }

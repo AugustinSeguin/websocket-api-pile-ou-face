@@ -62,17 +62,32 @@ pseudoValiButton.addEventListener('click', (event) => {
 socket.on('getRooms', (data) => {
   if (Array.isArray(data) && data.length > 0) {
     const roomSelect = document.getElementById('room-select');
-    newRooms = data.filter((room) => !allRooms.includes(room));
 
-    console.log(allRooms);
-    allRooms.push(...newRooms);
-    console.log(newRooms);
-    newRooms.forEach((room) => {
+    // Vider toutes les options existantes
+    roomSelect.innerHTML = '';
+
+    // Ajouter l'option "Créer nouvelle room"
+    const createNewRoomOption = document.createElement('option');
+    createNewRoomOption.value = 'addRoom';
+    createNewRoomOption.textContent = 'Créer nouvelle room';
+    roomSelect.appendChild(createNewRoomOption);
+
+    // Ajouter les nouvelles options
+    data.forEach((room) => {
       const option = document.createElement('option');
       option.value = room;
       option.textContent = room;
       roomSelect.appendChild(option);
     });
+
+    // Mettre à jour allRooms avec les nouvelles données
+    allRooms = data;
+  } else {
+    roomSelect.innerHTML = '';
+    const createNewRoomOption = document.createElement('option');
+    createNewRoomOption.value = 'addRoom';
+    createNewRoomOption.textContent = 'Créer nouvelle room';
+    roomSelect.appendChild(createNewRoomOption);
   }
 });
 
