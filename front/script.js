@@ -5,7 +5,9 @@ document.getElementById('waiting-room').style.display = 'none';
 document.getElementById('cant-play').style.display = 'none';
 document.getElementById('start-game').style.display = 'none';
 document.getElementById('waitingplayers').style.display = 'none';
+document.getElementById('newRoom').style.display = 'block';
 
+let allRooms = [];
 const socket = io('http://localhost:3000');
 socket.on('connect', () => {
   console.log('connected');
@@ -15,13 +17,62 @@ socket.on('connect', () => {
 
 const pseudoInput = document.getElementById('pseudo');
 const pseudoValiButton = document.getElementById('pseudo-vali');
+const roomSelect = document.getElementById('room-select');
+
+roomSelect.addEventListener('change', (event) => {
+  const selectedValue = event.target.value;
+  console.log('Valeur sélectionnée:', selectedValue);
+
+  if (selectedValue === 'addRoom') {
+    document.getElementById('newRoom').style.display = 'block';
+  } else {
+    document.getElementById('newRoom').style.display = 'none';
+  }
+});
 
 pseudoValiButton.addEventListener('click', (event) => {
   if (!pseudoInput.value.trim()) {
     event.preventDefault();
     alert('Le pseudo ne peut pas être vide.');
   } else {
-    socket.emit('game', { pseudo: pseudoInput.value });
+    if (roomSelect.value) {
+      if (roomSelect.value === 'addRoom') {
+        // document.getElementById('newRoom').style.display = 'block';
+        let roomName = document.getElementById('roomName').value;
+        if (!allRooms.includes('room-' + roomName)) {
+          socket.emit('game', {
+            pseudo: pseudoInput.value,
+            room: 'room-' + roomName,
+          });
+        } else {
+          alert(`La room ${'room-' + roomName} existe déjà`);
+        }
+      } else {
+        socket.emit('game', {
+          pseudo: pseudoInput.value,
+          room: roomSelect.value,
+        });
+      }
+    } else {
+      socket.emit('game', { pseudo: pseudoInput.value });
+    }
+  }
+});
+
+socket.on('getRooms', (data) => {
+  if (Array.isArray(data) && data.length > 0) {
+    const roomSelect = document.getElementById('room-select');
+    newRooms = data.filter((room) => !allRooms.includes(room));
+
+    console.log(allRooms);
+    allRooms.push(...newRooms);
+    console.log(newRooms);
+    newRooms.forEach((room) => {
+      const option = document.createElement('option');
+      option.value = room;
+      option.textContent = room;
+      roomSelect.appendChild(option);
+    });
   }
 });
 

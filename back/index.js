@@ -17,14 +17,25 @@ let bets = [];
 let roomCounter = 1;
 const maxPlayersPerRoom = 3;
 
+function getRooms() {
+  let rooms = Array.from(io.sockets.adapter.rooms);
+  rooms = rooms.filter((word) => word[0].startsWith('room'));
+  rooms = rooms.map((room) => room[0]);
+  return rooms;
+}
+
 io.on('connection', (socket) => {
   console.log('a user connected', socket.id, socket.pseudo);
+
+  socket.emit('getRooms', getRooms());
 
   socket.on('game', (data) => {
     let roomName = `room-${roomCounter}`;
 
     socket.pseudo = data.pseudo;
-
+    if (data.room) {
+      roomName = data.room;
+    }
     let room = io.sockets.adapter.rooms.get(roomName);
 
     if (room && room.size >= maxPlayersPerRoom) {
@@ -32,9 +43,12 @@ io.on('connection', (socket) => {
       roomName = `room-${roomCounter}`;
       room = io.sockets.adapter.rooms.get(roomName);
     }
-
+    socket.roomName = roomName;
     console.log(data.pseudo + ' a rjoint la room ' + roomName);
     socket.join(roomName);
+
+    io.emit('getRooms', getRooms());
+
     if (!roomData[roomName]) {
       roomData[roomName] = { users: [], bets: [], rounds: 0 };
     }
@@ -101,8 +115,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('message', (data) => {
+    console.log(socket);
     console.log('message', data);
-    io.emit('message', data);
+    console.log(socket.rooms[1]);
+    io.to(socket.roomName).emit('message', data);
   });
 
   socket.on('disconnect', () => {
@@ -139,10 +155,6 @@ function displayCurrentPoints(roomData) {
 
 function endOfTournament(roomName, roomData) {
   let rankings = roomData.users.sort((a, b) => b.points - a.points);
-  roomData.users.forEach((user) => {
-    io.to(user.id).emit('end_of_tournament', rankings);
-  });
+
   io.to(roomName).emit('end_of_tournament', rankings);
-  //   io.emit('end_of_tournament', rankings);
-  console.log('ranking' + rankings);
 }

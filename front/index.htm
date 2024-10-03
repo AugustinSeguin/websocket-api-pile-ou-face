@@ -32,6 +32,21 @@
           <label for="pseudo">Choisissez un pseudo</label>
           <input type="text" id="pseudo" placeholder="Entrez votre pseudo" />
         </div>
+        <div class="input-group">
+          <label for="room-select">Choisissez une salle</label>
+          <select id="room-select">
+            <option value="addRoom">Créer nouvelle room</option>
+            <!-- Les options seront ajoutées ici par JavaScript -->
+          </select>
+        </div>
+        <div id="newRoom" class="input-group newRoom">
+          <label for="room">Choisissez un nom de salle</label>
+          <input
+            type="text"
+            id="roomName"
+            placeholder="Entrez votre nom de salle"
+          />
+        </div>
         <button id="pseudo-vali" class="btn">Valider</button>
       </section>
 
@@ -84,6 +99,7 @@
       <section id="end_of_tournament" class="card hidden">
         <h2>Résultats du Tournoi</h2>
         <div id="results" class="results"></div>
+        <!-- <button id="restart" class="btn choice">Retour</button> -->
       </section>
     </div>
 
