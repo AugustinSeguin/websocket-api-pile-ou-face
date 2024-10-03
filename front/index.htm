@@ -55,14 +55,6 @@
       <!-- Salle d'attente -->
       <section id="waiting-room" class="card hidden">
         <h4>En attente de d'autres joueurs...</h4>
-        <section id="chat">
-          <h2>Chat</h2>
-          <div id="messages" class="messages"></div>
-          <div class="input-group">
-            <input type="text" id="newMessage" placeholder="Votre message" />
-            <button id="send" class="btn">Envoyer</button>
-          </div>
-        </section>
       </section>
 
       <!-- Trop de joueurs -->
@@ -78,21 +70,31 @@
       <!-- Début du jeu -->
       <section id="start-game" class="card hidden">
         <h4 id="waitingplayers">En attente des autres joueurs</h4>
-        <div id="game" class="game">
-          <h4 id="canplay">Vous pouvez jouer !</h4>
-          <div class="buttons">
-            <button id="pile" class="btn choice">Miser Pile</button>
-            <button id="face" class="btn choice">Miser Face</button>
+        <div class="game-chat-container">
+          <div id="game" class="game">
+            <h4 id="canplay">Vous pouvez jouer !</h4>
+            <div class="buttons">
+              <button id="pile" class="btn choice">Miser Pile</button>
+              <button id="face" class="btn choice">Miser Face</button>
+            </div>
+            <div class="bet-section input-group">
+              <input
+                type="number"
+                id="bet-input"
+                min="0"
+                value="0"
+                placeholder="Votre mise"
+              />
+            </div>
           </div>
-          <div class="bet-section input-group">
-            <input
-              type="number"
-              id="bet-input"
-              min="0"
-              value="0"
-              placeholder="Votre mise"
-            />
-          </div>
+          <section id="chat" class="chat">
+            <h2>Chat</h2>
+            <div id="messages" class="messages"></div>
+            <div class="input-group">
+              <input type="text" id="newMessage" placeholder="Votre message" />
+              <button id="send" class="btn">Envoyer</button>
+            </div>
+          </section>
         </div>
         <div id="current_points" class="points"></div>
       </section>

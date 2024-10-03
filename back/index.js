@@ -112,7 +112,7 @@ io.on('connection', (socket) => {
         roomData[roomName].rounds += 1;
       }
 
-      if (roomData[roomName].rounds === 1) {
+      if (roomData[roomName].rounds === 3) {
         console.log(roomData[roomName].rounds + ' fin de la partie');
         endOfTournament(roomName, roomData[roomName]);
         roomData[roomName].rounds = 0;
@@ -160,25 +160,7 @@ function displayCurrentPoints(roomData) {
   });
 }
 function endOfTournament(roomName, roomData) {
-  // Trier les utilisateurs par points
-  let rankings = roomData[roomName].users.sort((a, b) => b.points - a.points);
+  let rankings = roomData.users.sort((a, b) => b.points - a.points);
 
-  // Émettre l'événement de fin de tournoi
   io.to(roomName).emit('end_of_tournament', rankings);
-
-  // Supprimer la room des données
-  delete roomData[roomName];
-
-  // Supprimer tous les joueurs de la room et supprimer la room
-  io.of('/')
-    .in(roomName)
-    .clients((error, socketIds) => {
-      if (error) throw error;
-      socketIds.forEach((socketId) => {
-        const socket = io.sockets.sockets.get(socketId);
-        if (socket) {
-          socket.leave(roomName);
-        }
-      });
-    });
 }

@@ -12,7 +12,7 @@ body {
 
 .container {
   width: 90%;
-  max-width: 600px;
+  max-width: 800px; /* Augmenté pour accueillir le chat */
   margin: auto;
 }
 
@@ -51,7 +51,7 @@ h2, h4 {
   font-weight: 500;
 }
 
-.input-group input {
+.input-group input, .input-group select {
   width: 94%;
   padding: 10px 15px;
   border: 2px solid #ddd;
@@ -60,7 +60,7 @@ h2, h4 {
   transition: border-color 0.3s;
 }
 
-.input-group input:focus {
+.input-group input:focus, .input-group select:focus {
   border-color: #6c63ff;
   outline: none;
 }
@@ -144,4 +144,64 @@ h2, h4 {
 
 .results p {
   margin: 5px 0;
+}
+
+/* Ajouts pour la mise en page du jeu et du chat */
+
+.game-chat-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.game {
+  flex: 2;
+  min-width: 300px;
+}
+
+.chat {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  height: 400px; /* Ajustez selon vos besoins */
+}
+
+.chat h2 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  display: flex;
+}
+
+.input-group input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .game-chat-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chat {
+    max-width: 100%;
+    height: 300px;
+  }
 }
