@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
         setting: data.setting,
       });
 
-      if (roomData[roomName].bets.length === 3) {
+      if (roomData[roomName].bets.length === 1) {
         let result = Math.random() < 0.5;
         result = result ? 'pile' : 'face';
         roomData[roomName].bets.forEach((bet) => {

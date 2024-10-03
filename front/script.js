@@ -186,7 +186,7 @@ socket.on('end_of_tournament', (data) => {
   document.getElementById('current_points').style.display = 'none';
   document.getElementById('start-game').style.display = 'none';
   document.getElementById('end_of_tournament').style.display = 'block';
-  console.log('ici');
+  launchConfetti();
   const resultsDiv = document.getElementById('results');
   resultsDiv.innerHTML = ''; // Clear previous results
   data.forEach((user, index) => {
@@ -197,3 +197,42 @@ socket.on('end_of_tournament', (data) => {
     resultsDiv.appendChild(resultP);
   });
 });
+
+// Fonction pour lancer les confettis
+function launchConfetti() {
+  // Configuration de base des confettis
+  const duration = 5 * 1000; // Durée de l'effet en millisecondes
+  const animationEnd = Date.now() + duration;
+  const defaults = {
+    spread: 60,
+    ticks: 60,
+    origin: { y: 0.6 },
+  };
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  const interval = setInterval(function () {
+    const timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
+    }
+
+    const particleCount = 50 * (timeLeft / duration);
+    // Lancer les confettis
+    confetti(
+      Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      })
+    );
+    confetti(
+      Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      })
+    );
+  }, 250);
+}
